@@ -2,7 +2,7 @@
 
 > **Transform your archival research with enterprise-grade digital tools**
 
-[![Version](https://img.shields.io/badge/version-2.0-blue)](https://github.com/user/nationalarchives-clone)
+[![Version](https://img.shields.io/badge/version-2.0-blue)](https://github.com/rtw878/national-archives-discovery-clone)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![Python](https://img.shields.io/badge/python-3.8+-brightgreen)](https://python.org)
 [![Status](https://img.shields.io/badge/status-production--ready-success)](README.md)
@@ -57,7 +57,7 @@ The National Archives Discovery Clone is a **production-ready enterprise system*
 
 ```bash
 # 1. Clone or download the project
-git clone https://github.com/user/nationalarchives-clone.git
+git clone https://github.com/rtw878/national-archives-discovery-clone.git
 cd nationalarchives-clone
 
 # 2. Install dependencies
@@ -765,7 +765,7 @@ python main.py backup --action restore --backup-id latest_backup_id
 
 **Ready to revolutionize your archival research?**
 
-[Get Started](#-installation--setup) | [Download](https://github.com/user/nationalarchives-clone) | [Documentation](README.md)
+[Get Started](#-installation--setup) | [Download](https://github.com/rtw878/national-archives-discovery-clone) | [Documentation](README.md)
 
 *Built with ❤️ for historians, researchers, and digital humanities scholars*
 
