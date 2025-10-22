@@ -1,0 +1,313 @@
+{% extends "base.html" %}
+
+{% block title %}Search Results - clio{% endblock %}
+
+{% block content %}
+<div class="container" style="padding-top: var(--space-12); padding-bottom: var(--space-16);">
+    <!-- Search Header -->
+    <div class="fade-in" style="margin-bottom: var(--space-8);">
+        <!-- Premium Search Box -->
+        <div class="card glass-card" style="margin-bottom: var(--space-6);">
+            <div class="card-body">
+                <form action="/search" method="post">
+                    <div style="display: flex; gap: var(--space-3); align-items: center; flex-wrap: wrap;">
+                        <div style="flex: 1; min-width: 300px;">
+                            <input type="text" name="q" class="form-control" 
+                                   value="{{ query }}"
+                                   placeholder="Search for records, people, places, or historical events..."
+                                   required
+                                   style="font-size: var(--text-lg); padding: var(--space-5);">
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="bi bi-search"></i>
+                            Search
+                        </button>
+                    </div>
+                    
+                    <!-- Advanced Options -->
+                    <div style="margin-top: var(--space-6); display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-4);">
+                        <label style="display: flex; align-items: center; gap: var(--space-2); cursor: pointer; padding: var(--space-3); background: var(--gray-50); border-radius: var(--radius-lg); transition: var(--transition-base);" onmouseover="this.style.background='var(--primary-50)';" onmouseout="this.style.background='var(--gray-50)';">
+                            <input type="checkbox" name="semantic" class="form-check-input" style="margin: 0;" {{ "checked" if semantic else "" }}>
+                            <i class="bi bi-cpu-fill" style="color: var(--primary-600);"></i>
+                            <span style="font-weight: 600; font-size: var(--text-sm);">AI Semantic Search</span>
+                        </label>
+                        <select name="collection" class="form-select">
+                            <option value="">All Collections</option>
+                        </select>
+                        <select name="archive" class="form-select">
+                            <option value="">All Archives</option>
+                            <option value="The National Archives" {{ "selected" if archive == "The National Archives" else "" }}>
+                                The National Archives
+                            </option>
+                        </select>
+                        <button type="button" class="btn btn-outline-primary" onclick="clearFilters()">
+                            <i class="bi bi-x-circle"></i> Clear Filters
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        {% if query %}
+        <!-- Results Header -->
+        <div class="d-flex justify-content-between align-items-center flex-wrap" style="gap: var(--space-4);">
+            <div>
+                <h2 style="margin-bottom: var(--space-2);">
+                    Search Results
+                </h2>
+                <p style="color: var(--gray-600); margin: 0;">
+                    Found <strong style="color: var(--primary-600);">{{ "{:,}".format(total_results) }}</strong> results for 
+                    <strong style="color: var(--primary-700);">"{{ query }}"</strong>
+                    {% if semantic %}
+                    <span class="badge badge-primary" style="margin-left: var(--space-2);">
+                        <i class="bi bi-cpu"></i> AI Search Active
+                    </span>
+                    {% endif %}
+                </p>
+            </div>
+
+            {% if results %}
+            <div class="dropdown" style="position: relative;">
+                <button class="btn btn-outline-primary" type="button" id="exportDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-download"></i> Export Results
+                    <i class="bi bi-chevron-down" style="font-size: 0.75rem;"></i>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="exportDropdown" style="background: white; border-radius: var(--radius-lg); box-shadow: var(--shadow-xl); border: 1px solid var(--gray-200); padding: var(--space-2); min-width: 200px; margin-top: var(--space-2);">
+                    <li><a class="dropdown-item" href="/search?q={{ query }}&export=json" style="padding: var(--space-3); border-radius: var(--radius); display: flex; align-items: center; gap: var(--space-2); transition: var(--transition-base); text-decoration: none; color: var(--gray-900);" onmouseover="this.style.background='var(--primary-50)';" onmouseout="this.style.background='transparent';">
+                        <i class="bi bi-file-earmark-code"></i> JSON Format
+                    </a></li>
+                    <li><a class="dropdown-item" href="/search?q={{ query }}&export=csv" style="padding: var(--space-3); border-radius: var(--radius); display: flex; align-items: center; gap: var(--space-2); transition: var(--transition-base); text-decoration: none; color: var(--gray-900);" onmouseover="this.style.background='var(--primary-50)';" onmouseout="this.style.background='transparent';">
+                        <i class="bi bi-file-earmark-spreadsheet"></i> CSV Format
+                    </a></li>
+                    <li><a class="dropdown-item" href="/search?q={{ query }}&export=xml" style="padding: var(--space-3); border-radius: var(--radius); display: flex; align-items: center; gap: var(--space-2); transition: var(--transition-base); text-decoration: none; color: var(--gray-900);" onmouseover="this.style.background='var(--primary-50)';" onmouseout="this.style.background='transparent';">
+                        <i class="bi bi-file-earmark-text"></i> XML Format
+                    </a></li>
+                </ul>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Query Enhancement Info -->
+        {% if processed_query and processed_query.expanded_terms %}
+        <div class="alert alert-info fade-in" style="margin-top: var(--space-6); animation-delay: 0.1s;">
+            <div class="d-flex align-items-center gap-3">
+                <i class="bi bi-lightbulb-fill" style="font-size: 1.5rem; color: var(--info);"></i>
+                <div>
+                    <h6 style="font-weight: 700; margin-bottom: var(--space-2);">Query Enhanced</h6>
+                    <p style="margin-bottom: var(--space-2); font-size: var(--text-sm);">Your search was enhanced with related terms:</p>
+                    <div style="display: flex; flex-wrap: wrap; gap: var(--space-2);">
+                        {% for term in processed_query.expanded_terms[:5] %}
+                        <span class="badge badge-primary">{{ term }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% endif %}
+    </div>
+
+    {% if query %}
+    {% if results %}
+    <!-- Search Results -->
+    <div style="display: flex; flex-direction: column; gap: var(--space-6);">
+        {% for record, score in results %}
+        <div class="record-card fade-in" style="animation-delay: {{ loop.index0 * 0.05 }}s;">
+            <div style="display: flex; justify-content: space-between; gap: var(--space-6); align-items: start;">
+                <div style="flex: 1;">
+                    <h3 style="margin-bottom: var(--space-3);">
+                        <a href="/record/{{ record.id }}" class="record-title">
+                            {{ record.title }}
+                        </a>
+                    </h3>
+
+                    <div class="record-meta" style="margin-bottom: var(--space-4);">
+                        {% if record.reference %}
+                        <span style="display: flex; align-items: center; gap: var(--space-2);">
+                            <i class="bi bi-file-text"></i>
+                            <strong>{{ record.reference }}</strong>
+                        </span>
+                        {% endif %}
+
+                        {% if record.collection %}
+                        <span style="display: flex; align-items: center; gap: var(--space-2);">
+                            <i class="bi bi-collection"></i> {{ record.collection }}
+                        </span>
+                        {% endif %}
+
+                        {% if record.archive %}
+                        <span style="display: flex; align-items: center; gap: var(--space-2);">
+                            <i class="bi bi-building"></i> {{ record.archive }}
+                        </span>
+                        {% endif %}
+
+                        {% if record.date_from or record.date_to %}
+                        <span style="display: flex; align-items: center; gap: var(--space-2);">
+                            <i class="bi bi-calendar"></i>
+                            {{ record.date_from or '' }}{% if record.date_from and record.date_to %} - {% endif %}{{ record.date_to or '' }}
+                        </span>
+                        {% endif %}
+                    </div>
+
+                    {% if record.description %}
+                    <p style="color: var(--gray-700); margin-bottom: var(--space-4); line-height: 1.8;">
+                        {{ record.description[:400] }}{% if record.description|length > 400 %}...{% endif %}
+                    </p>
+                    {% endif %}
+
+                    <div style="display: flex; flex-wrap: wrap; gap: var(--space-3);">
+                        {% if record.subjects %}
+                        <div style="display: flex; flex-wrap: wrap; gap: var(--space-2); align-items: center;">
+                            <span style="font-size: var(--text-xs); color: var(--gray-500); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">Subjects:</span>
+                            {% for subject in record.subjects[:3] %}
+                            <span class="badge badge-secondary">{{ subject }}</span>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+
+                        {% if record.places %}
+                        <div style="display: flex; flex-wrap: wrap; gap: var(--space-2); align-items: center;">
+                            <span style="font-size: var(--text-xs); color: var(--gray-500); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">Places:</span>
+                            {% for place in record.places[:3] %}
+                            <span class="badge" style="background: linear-gradient(135deg, var(--accent-teal) 0%, #0d9488 100%); color: white;">
+                                <i class="bi bi-geo-alt"></i> {{ place }}
+                            </span>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+
+                        {% if record.creators %}
+                        <div style="display: flex; flex-wrap: wrap; gap: var(--space-2); align-items: center;">
+                            <span style="font-size: var(--text-xs); color: var(--gray-500); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">Creators:</span>
+                            {% for creator in record.creators[:2] %}
+                            <span class="badge badge-primary">
+                                <i class="bi bi-person"></i> {{ creator }}
+                            </span>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                {% if semantic and score > 0 %}
+                <div style="text-align: center; min-width: 80px;">
+                    <div style="font-size: var(--text-2xl); font-weight: 800; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                        {{ "%.0f" | format(score * 100) }}
+                    </div>
+                    <div style="font-size: var(--text-xs); color: var(--gray-500); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">Match</div>
+                </div>
+                {% endif %}
+            </div>
+            
+            <div style="margin-top: var(--space-6); padding-top: var(--space-4); border-top: 1px solid var(--gray-200); display: flex; justify-content: space-between; align-items: center;">
+                <div style="font-size: var(--text-sm); color: var(--gray-500);">
+                    <i class="bi bi-archive"></i> ID: <code style="background: var(--gray-100); padding: var(--space-1) var(--space-2); border-radius: var(--radius); font-size: 0.875em;">{{ record.id }}</code>
+                </div>
+                <a href="/record/{{ record.id }}" class="btn btn-outline-primary btn-sm">
+                    <i class="bi bi-eye"></i> View Details
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    {% if total_pages > 1 %}
+    <nav aria-label="Search results pagination" style="margin-top: var(--space-12);">
+        <ul style="display: flex; justify-content: center; gap: var(--space-2); list-style: none; padding: 0; flex-wrap: wrap;">
+            {% if page > 1 %}
+            <li>
+                <a href="/search?q={{ query }}&page={{ page - 1 }}{% if semantic %}&semantic=true{% endif %}" 
+                   class="btn btn-outline-primary">
+                    <i class="bi bi-chevron-left"></i> Previous
+                </a>
+            </li>
+            {% endif %}
+
+            {% for p in range(max(1, page - 2), min(total_pages + 1, page + 3)) %}
+            <li>
+                <a href="/search?q={{ query }}&page={{ p }}{% if semantic %}&semantic=true{% endif %}" 
+                   class="btn {{ 'btn-primary' if p == page else 'btn-outline-primary' }}"
+                   {% if p == page %}style="pointer-events: none;"{% endif %}>
+                    {{ p }}
+                </a>
+            </li>
+            {% endfor %}
+
+            {% if page < total_pages %}
+            <li>
+                <a href="/search?q={{ query }}&page={{ page + 1 }}{% if semantic %}&semantic=true{% endif %}" 
+                   class="btn btn-outline-primary">
+                    Next <i class="bi bi-chevron-right"></i>
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+        <div style="text-align: center; margin-top: var(--space-4); font-size: var(--text-sm); color: var(--gray-600);">
+            Page {{ page }} of {{ total_pages }} • {{ "{:,}".format(total_results) }} total results
+        </div>
+    </nav>
+    {% endif %}
+
+    {% else %}
+    <!-- No Results -->
+    <div style="text-align: center; padding: var(--space-24) 0;">
+        <div style="display: inline-flex; width: 120px; height: 120px; background: linear-gradient(135deg, var(--primary-50) 0%, var(--primary-100) 100%); border-radius: 50%; align-items: center; justify-content: center; margin-bottom: var(--space-8);">
+            <i class="bi bi-search" style="font-size: 4rem; color: var(--primary-500);"></i>
+        </div>
+        <h3 style="margin-bottom: var(--space-4);">No results found</h3>
+        <p style="color: var(--gray-600); margin-bottom: var(--space-8); max-width: 600px; margin-left: auto; margin-right: auto;">
+            {% if query %}
+            No records match your search for <strong style="color: var(--primary-600);">"{{ query }}"</strong>
+            {% else %}
+            Enter a search term to find records
+            {% endif %}
+        </p>
+
+        {% if query %}
+        <div class="card shadow-card" style="max-width: 700px; margin: 0 auto;">
+            <div class="card-body">
+                <h5 style="margin-bottom: var(--space-6);">Try these suggestions:</h5>
+                <div style="text-align: left;">
+                    <div style="padding: var(--space-4); background: var(--gray-50); border-left: 3px solid var(--success); border-radius: var(--radius-lg); margin-bottom: var(--space-3);">
+                        <i class="bi bi-check-circle" style="color: var(--success);"></i>
+                        Check your spelling and try alternative terms
+                    </div>
+                    <div style="padding: var(--space-4); background: var(--gray-50); border-left: 3px solid var(--primary-600); border-radius: var(--radius-lg); margin-bottom: var(--space-3);">
+                        <i class="bi bi-check-circle" style="color: var(--primary-600);"></i>
+                        Use broader search terms or natural language
+                    </div>
+                    <div style="padding: var(--space-4); background: var(--gray-50); border-left: 3px solid var(--accent-purple); border-radius: var(--radius-lg); margin-bottom: var(--space-3);">
+                        <i class="bi bi-check-circle" style="color: var(--accent-purple);"></i>
+                        Try using AI Semantic Search for better results
+                    </div>
+                    <div style="padding: var(--space-4); background: var(--gray-50); border-left: 3px solid var(--accent-teal); border-radius: var(--radius-lg);">
+                        <i class="bi bi-check-circle" style="color: var(--accent-teal);"></i>
+                        Remove filters to expand your search scope
+                    </div>
+                </div>
+
+                <div style="margin-top: var(--space-8); display: flex; gap: var(--space-4); justify-content: center; flex-wrap: wrap;">
+                    <a href="/search?q={{ query }}&semantic=true" class="btn btn-primary">
+                        <i class="bi bi-cpu"></i> Try AI Semantic Search
+                    </a>
+                    <a href="/collections" class="btn btn-outline-primary">
+                        <i class="bi bi-collection"></i> Browse Collections
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    {% endif %}
+    {% endif %}
+</div>
+
+<script>
+function clearFilters() {
+    document.querySelector('input[name="semantic"]').checked = false;
+    document.querySelector('select[name="collection"]').value = '';
+    document.querySelector('select[name="archive"]').value = '';
+}
+</script>
+{% endblock %}

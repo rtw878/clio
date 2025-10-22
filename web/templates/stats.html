@@ -1,0 +1,331 @@
+{% extends "base.html" %}
+
+{% block title %}Statistics - clio{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Page Header -->
+    <div class="text-center mb-5 fade-in">
+        <h1 class="display-4 mb-3">
+            <i class="bi bi-graph-up-arrow text-primary"></i>
+            System Statistics
+        </h1>
+        <p class="lead text-muted">
+            Comprehensive overview of your local Discovery catalogue clone
+        </p>
+    </div>
+    
+    <!-- Key Metrics -->
+    <div class="stats-grid mb-5 fade-in">
+        <div class="stat-card">
+            <i class="bi bi-database-fill text-primary" style="font-size: 2rem;"></i>
+            <div class="stat-number">{{ "{:,}".format(db_stats.total_records or 0) }}</div>
+            <div class="stat-label">Total Records</div>
+        </div>
+        <div class="stat-card">
+            <i class="bi bi-collection-fill text-success" style="font-size: 2rem;"></i>
+            <div class="stat-number">{{ collections|length }}</div>
+            <div class="stat-label">Collections</div>
+        </div>
+        <div class="stat-card">
+            <i class="bi bi-lightning-fill text-warning" style="font-size: 2rem;"></i>
+            <div class="stat-number">{{ cache_stats.active_entries or 0 }}</div>
+            <div class="stat-label">Cached Searches</div>
+        </div>
+        <div class="stat-card">
+            <i class="bi bi-cloud-fill text-info" style="font-size: 2rem;"></i>
+            <div class="stat-number">{{ today_requests }}</div>
+            <div class="stat-label">API Calls Today</div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <!-- Database Information -->
+        <div class="col-lg-6">
+            <div class="card shadow-card mb-4 fade-in">
+                <div class="card-header">
+                    <h4 class="mb-0">
+                        <i class="bi bi-database-fill-gear text-primary"></i>
+                        Database Information
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <tbody>
+                                <tr>
+                                    <td class="text-muted">Total Records</td>
+                                    <td class="text-end">
+                                        <strong class="text-primary">{{ "{:,}".format(db_stats.total_records or 0) }}</strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">Database Size</td>
+                                    <td class="text-end">
+                                        <strong class="text-primary">{{ "%.1f" | format((db_stats.database_size or 0) / (1024*1024)) }} MB</strong>
+                                    </td>
+                                </tr>
+                                {% if db_stats.date_range %}
+                                <tr>
+                                    <td class="text-muted">Date Range</td>
+                                    <td class="text-end">
+                                        <small class="text-primary">{{ db_stats.date_range.earliest or 'Unknown' }} - {{ db_stats.date_range.latest or 'Unknown' }}</small>
+                                    </td>
+                                </tr>
+                                {% endif %}
+                                <tr>
+                                    <td class="text-muted">Collections</td>
+                                    <td class="text-end">
+                                        <strong class="text-primary">{{ collections|length }}</strong>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- API Usage -->
+            <div class="card shadow-card mb-4 fade-in">
+                <div class="card-header">
+                    <h4 class="mb-0">
+                        <i class="bi bi-cloud-arrow-down text-info"></i>
+                        API Usage Monitor
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">Today's Usage</span>
+                            <strong class="text-primary">{{ today_requests }} / 3,000</strong>
+                        </div>
+                        <div class="progress" style="height: 8px;">
+                            <div class="progress-bar bg-primary" role="progressbar" 
+                                 style="width: {{ (today_requests / 3000 * 100) | round(1) }}%"
+                                 aria-valuenow="{{ today_requests }}" aria-valuemin="0" aria-valuemax="3000">
+                            </div>
+                        </div>
+                        <small class="text-muted">{{ "%.1f" | format(today_requests / 3000 * 100) }}% of daily limit</small>
+                    </div>
+                    
+                    <div class="alert alert-info mb-0">
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-info-circle-fill me-2" style="font-size: 1.25rem;"></i>
+                            <small>
+                                The National Archives limits API usage to 3,000 requests per day at 1 request per second.
+                                This tool fully respects these limits.
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Cache Statistics -->
+            <div class="card shadow-card mb-4 fade-in">
+                <div class="card-header">
+                    <h4 class="mb-0">
+                        <i class="bi bi-lightning-charge-fill text-warning"></i>
+                        Cache Performance
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-3">
+                            <tbody>
+                                <tr>
+                                    <td class="text-muted">Active Entries</td>
+                                    <td class="text-end">
+                                        <strong class="text-primary">{{ cache_stats.active_entries or 0 }}</strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">Total Entries</td>
+                                    <td class="text-end">
+                                        <strong class="text-primary">{{ cache_stats.total_entries or 0 }}</strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">Cache Size</td>
+                                    <td class="text-end">
+                                        <strong class="text-primary">{{ cache_stats.size_mb or 0 }} MB</strong>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    {% if cache_stats.popular_queries %}
+                    <div>
+                        <h6 class="text-primary mb-3">Popular Cached Queries</h6>
+                        <div class="list-group list-group-flush">
+                            {% for query_info in cache_stats.popular_queries[:5] %}
+                            <a href="/search?q={{ query_info.query }}" 
+                               class="list-group-item list-group-item-action border-0 px-0 py-2">
+                                <i class="bi bi-arrow-right-short text-primary"></i>
+                                {{ query_info.query }}
+                            </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <!-- Right Column -->
+        <div class="col-lg-6">
+            <!-- Top Archives -->
+            {% if db_stats.archives %}
+            <div class="card shadow-card mb-4 fade-in">
+                <div class="card-header">
+                    <h4 class="mb-0">
+                        <i class="bi bi-building text-success"></i>
+                        Top Archives by Record Count
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="list-group list-group-flush">
+                        {% for archive, count in db_stats.archives.items()[:8] %}
+                        <div class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
+                            <div>
+                                <i class="bi bi-archive-fill text-primary me-2"></i>
+                                <span>{{ archive }}</span>
+                            </div>
+                            <span class="badge badge-primary">{{ "{:,}".format(count) }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            
+            <!-- Semantic Search Index -->
+            {% if index_stats %}
+            <div class="card shadow-card mb-4 fade-in">
+                <div class="card-header">
+                    <h4 class="mb-0">
+                        <i class="bi bi-cpu-fill text-primary"></i>
+                        AI Semantic Search
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-6">
+                            <div class="text-center">
+                                <div class="h3 text-primary mb-1">{{ "{:,}".format(index_stats.total_records_indexed or 0) }}</div>
+                                <small class="text-muted">Indexed Records</small>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="text-center">
+                                <div class="h3 text-success mb-1">
+                                    <i class="bi bi-check-circle-fill"></i>
+                                </div>
+                                <small class="text-muted">Active</small>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="table-responsive mb-3">
+                        <table class="table table-sm">
+                            <tr>
+                                <td class="text-muted">Model</td>
+                                <td class="text-end"><code class="small">{{ index_stats.model_name or 'Not loaded' }}</code></td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted">Vector Database</td>
+                                <td class="text-end"><small>ChromaDB</small></td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div class="alert alert-light mb-0">
+                        <h6 class="text-primary mb-2">AI Search Benefits</h6>
+                        <ul class="mb-0 small">
+                            <li>Natural language understanding</li>
+                            <li>Concept-based matching</li>
+                            <li>Relevance scoring</li>
+                            <li>Similar record discovery</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="card shadow-card mb-4 fade-in">
+                <div class="card-body">
+                    <div class="alert alert-warning mb-0">
+                        <h5 class="mb-2">
+                            <i class="bi bi-exclamation-triangle-fill"></i>
+                            Semantic Search Not Available
+                        </h5>
+                        <p class="mb-0 small">
+                            AI semantic search capabilities are not currently available. This may be due to missing dependencies 
+                            or the search index not being built yet.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    
+    <!-- Top Collections Table -->
+    {% if collections %}
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card shadow-card fade-in">
+                <div class="card-header">
+                    <h4 class="mb-0">
+                        <i class="bi bi-collection-play text-primary"></i>
+                        Top Collections by Record Count
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Collection</th>
+                                    <th class="text-center">Records</th>
+                                    <th>Date Range</th>
+                                    <th class="text-end">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for collection in collections[:15] %}
+                                <tr>
+                                    <td>
+                                        <i class="bi bi-folder-fill text-primary me-2"></i>
+                                        <strong>{{ collection.collection }}</strong>
+                                    </td>
+                                    <td class="text-center">
+                                        <span class="badge badge-primary">{{ "{:,}".format(collection.record_count) }}</span>
+                                    </td>
+                                    <td>
+                                        <small class="text-muted">
+                                            {% if collection.earliest_date or collection.latest_date %}
+                                            <i class="bi bi-calendar me-1"></i>
+                                            {{ collection.earliest_date or '' }}{% if collection.earliest_date and collection.latest_date %} - {% endif %}{{ collection.latest_date or '' }}
+                                            {% else %}
+                                            <i class="bi bi-dash"></i>
+                                            {% endif %}
+                                        </small>
+                                    </td>
+                                    <td class="text-end">
+                                        <a href="/search?collection={{ collection.collection }}" 
+                                           class="btn btn-outline-primary btn-sm">
+                                            <i class="bi bi-search"></i> Explore
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

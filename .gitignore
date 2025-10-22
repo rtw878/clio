@@ -1,0 +1,56 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual env
+.venv/
+venv/
+ENV/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Logs and runtime
+logs/
+*.log
+*.pid
+
+# Data and caches
+/data/
+!/data/.gitkeep
+**/vectors/
+
+# Notebooks
+.ipynb_checkpoints/
+
+# Build
+build/
+dist/
+*.egg-info/
+
+# Env
+.env
+config.env
+config.env.local
+
+# Coverage
+.coverage
+htmlcov/
+
+# Chroma/SQLite
+**/*.sqlite3
+**/*.db*
+
+# Reports (large)
+verification_report_*.md
+performance_*.txt
+*.jsonl
+
+
+

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}clio - National Archives Research Platform{% endblock %}</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/static/images/favicon.png">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    
+    <!-- Bootstrap Grid -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap-grid.min.css" rel="stylesheet">
+
+    <!-- Custom Premium CSS -->
+    <link href="{{ url_for('static', path='css/main.css') }}?v=20251021-1" rel="stylesheet">
+
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Premium Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                <a class="navbar-brand" href="/" style="display: flex; align-items: center; gap: 0;">
+                    <img src="/static/images/logo.png" alt="clio" style="height: 48px; width: auto;">
+                </a>
+
+                <div style="display: flex; align-items: center; gap: var(--space-4);">
+                    <ul class="navbar-nav">
+                        <li>
+                            <a class="nav-link {{ 'active' if request.url.path == '/' else '' }}" href="/">
+                                <i class="bi bi-house-fill"></i>
+                                Home
+                            </a>
+                        </li>
+                        <li>
+                            <a class="nav-link {{ 'active' if '/search' in request.url.path else '' }}" href="/search">
+                                <i class="bi bi-search"></i>
+                                Search
+                            </a>
+                        </li>
+                        <li>
+                            <a class="nav-link {{ 'active' if request.url.path == '/collections' else '' }}" href="/collections">
+                                <i class="bi bi-collection"></i>
+                                Collections
+                            </a>
+                        </li>
+                        <li>
+                            <a class="nav-link {{ 'active' if request.url.path == '/stats' else '' }}" href="/stats">
+                                <i class="bi bi-graph-up-arrow"></i>
+                                Statistics
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main content -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Premium Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row" style="gap: var(--space-8) 0;">
+                <div class="col-lg-4">
+                    <div style="display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-4);">
+                        <img src="/static/images/logo-symbol.png" alt="clio symbol" style="height: 48px; width: 48px;">
+                        <h5 style="font-weight: 800; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin: 0;">
+                            clio
+                        </h5>
+                    </div>
+                    <p style="color: var(--gray-600); margin-bottom: var(--space-6); line-height: 1.8;">
+                        A professional research platform for accessing and searching The National Archives Discovery catalogue.
+                        Built with modern AI-powered search capabilities while respecting TNA's API guidelines.
+                    </p>
+                    <div style="display: flex; gap: var(--space-3); flex-wrap: wrap;">
+                        <span class="badge badge-primary">
+                            <i class="bi bi-cpu"></i> AI Search
+                        </span>
+                        <span class="badge" style="background: linear-gradient(135deg, var(--brand-cyan) 0%, var(--brand-blue) 100%); color: white;">
+                            <i class="bi bi-lightning-charge"></i> Real-time
+                        </span>
+                        <span class="badge" style="background: linear-gradient(135deg, var(--brand-magenta) 0%, var(--brand-pink) 100%); color: white;">
+                            <i class="bi bi-shield-check"></i> Compliant
+                        </span>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-3">
+                    <h6 style="font-weight: 700; margin-bottom: var(--space-4);">Platform</h6>
+                    <ul style="list-style: none; padding: 0; margin: 0;">
+                        <li style="margin-bottom: var(--space-2);"><a href="/">Home</a></li>
+                        <li style="margin-bottom: var(--space-2);"><a href="/search">Advanced Search</a></li>
+                        <li style="margin-bottom: var(--space-2);"><a href="/collections">Browse Collections</a></li>
+                        <li style="margin-bottom: var(--space-2);"><a href="/stats">System Statistics</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-4">
+                    <h6 style="font-weight: 700; margin-bottom: var(--space-4);">Resources</h6>
+                    <ul style="list-style: none; padding: 0; margin: 0;">
+                        <li style="margin-bottom: var(--space-2);">
+                            <a href="https://discovery.nationalarchives.gov.uk/" target="_blank" style="display: flex; align-items: center; gap: var(--space-2);">
+                                Official TNA Site
+                                <i class="bi bi-box-arrow-up-right" style="font-size: 0.875rem;"></i>
+                            </a>
+                        </li>
+                        <li style="margin-bottom: var(--space-2);"><a href="#">API Documentation</a></li>
+                        <li style="margin-bottom: var(--space-2);"><a href="#">Research Guide</a></li>
+                        <li style="margin-bottom: var(--space-2);"><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-5">
+                    <h6 style="font-weight: 700; margin-bottom: var(--space-4);">Legal & Compliance</h6>
+                    <p style="font-size: var(--text-sm); color: var(--gray-600); line-height: 1.8;">
+                        This tool operates in full compliance with The National Archives' API terms of service.
+                        All data is sourced directly from official TNA endpoints.
+                    </p>
+                </div>
+            </div>
+            
+            <hr style="border: none; height: 1px; background: var(--gray-200); margin: var(--space-8) 0;">
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--space-4);">
+                <div style="font-size: var(--text-sm); color: var(--gray-600);">
+                    © 2024 clio • Built for Research & Education
+                </div>
+                <div style="display: flex; gap: var(--space-4); font-size: var(--text-sm); color: var(--gray-600);">
+                    <span style="display: flex; align-items: center; gap: var(--space-2);">
+                        <i class="bi bi-shield-check" style="color: var(--success);"></i>
+                        API Compliant
+                    </span>
+                    <span style="display: flex; align-items: center; gap: var(--space-2);">
+                        <i class="bi bi-lock-fill" style="color: var(--primary-600);"></i>
+                        Secure
+                    </span>
+                    <span style="display: flex; align-items: center; gap: var(--space-2);">
+                        <i class="bi bi-heart-fill" style="color: var(--error);"></i>
+                        Open Source
+                    </span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

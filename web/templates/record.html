@@ -1,0 +1,584 @@
+{% extends "base.html" %}
+
+{% block title %}{{ record.title }} - clio{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Breadcrumb Navigation -->
+    <nav aria-label="breadcrumb" class="mb-4 fade-in">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item"><a href="/search">Search</a></li>
+            <li class="breadcrumb-item active">Record Details</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <!-- Main Content Column -->
+        <div class="col-lg-8">
+            <!-- Record Header Card -->
+            <div class="card shadow-card mb-4 fade-in">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-4">
+                        <div class="flex-grow-1">
+                            <h1 class="h2 mb-3">{{ record.title }}</h1>
+                            {% if record.reference %}
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="bi bi-file-text text-primary me-2" style="font-size: 1.25rem;"></i>
+                                <span class="h5 mb-0 text-primary">{{ record.reference }}</span>
+                            </div>
+                            {% endif %}
+                        </div>
+                        
+                        <button class="btn btn-outline-primary" onclick="window.history.back()">
+                            <i class="bi bi-arrow-left"></i> Back
+                        </button>
+                    </div>
+                    
+                    <!-- Quick Info Grid -->
+                    <div class="row g-3 mb-4">
+                        {% if record.collection %}
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-start">
+                                <i class="bi bi-collection text-primary me-2 mt-1"></i>
+                                <div>
+                                    <small class="text-muted d-block">Collection</small>
+                                    <strong>{{ record.collection }}</strong>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        
+                        {% if record.archive %}
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-start">
+                                <i class="bi bi-building text-primary me-2 mt-1"></i>
+                                <div>
+                                    <small class="text-muted d-block">Archive</small>
+                                    <strong>{{ record.archive }}</strong>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        
+                        {% if record.date_from or record.date_to %}
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-start">
+                                <i class="bi bi-calendar text-primary me-2 mt-1"></i>
+                                <div>
+                                    <small class="text-muted d-block">Date Range</small>
+                                    <strong>{{ record.date_from or '' }}{% if record.date_from and record.date_to %} - {% endif %}{{ record.date_to or '' }}</strong>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        
+                        {% if record.held_by %}
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-start">
+                                <i class="bi bi-geo-alt text-primary me-2 mt-1"></i>
+                                <div>
+                                    <small class="text-muted d-block">Held By</small>
+                                    <strong>{{ record.held_by }}</strong>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Description Section -->
+            {% if record.description %}
+            <div class="card shadow-card mb-4 fade-in">
+                <div class="card-header">
+                    <h4 class="mb-0">
+                        <i class="bi bi-file-text-fill text-primary"></i>
+                        Description
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="lead">
+                        {{ record.description | replace('\n', '<br>') | safe }}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            
+            <!-- Scope and Content -->
+            {% if record.scope_content %}
+            <div class="card shadow-card mb-4 fade-in">
+                <div class="card-header">
+                    <h4 class="mb-0">
+                        <i class="bi bi-list-ul text-info"></i>
+                        Scope and Content
+                    </h4>
+                </div>
+                <div class="card-body">
+                    {{ record.scope_content | replace('\n', '<br>') | safe }}
+                </div>
+            </div>
+            {% endif %}
+            
+            <!-- Administrative Information -->
+            {% if record.administrator_background or record.custodial_history or record.acquisition_information %}
+            <div class="card shadow-card mb-4 fade-in">
+                <div class="card-header">
+                    <h4 class="mb-0">
+                        <i class="bi bi-info-circle-fill text-warning"></i>
+                        Administrative Information
+                    </h4>
+                </div>
+                <div class="card-body">
+                    {% if record.administrator_background %}
+                    <div class="mb-4">
+                        <h6 class="text-primary">Administrative Background</h6>
+                        <p>{{ record.administrator_background | replace('\n', '<br>') | safe }}</p>
+                    </div>
+                    {% endif %}
+                    
+                    {% if record.custodial_history %}
+                    <div class="mb-4">
+                        <h6 class="text-primary">Custodial History</h6>
+                        <p>{{ record.custodial_history | replace('\n', '<br>') | safe }}</p>
+                    </div>
+                    {% endif %}
+                    
+                    {% if record.acquisition_information %}
+                    <div class="mb-0">
+                        <h6 class="text-primary">Acquisition Information</h6>
+                        <p class="mb-0">{{ record.acquisition_information | replace('\n', '<br>') | safe }}</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+            
+            <!-- Access and Use Information -->
+            {% if record.access_conditions or record.legal_status or record.closure_status %}
+            <div class="card shadow-card mb-4 fade-in">
+                <div class="card-header">
+                    <h4 class="mb-0">
+                        <i class="bi bi-key-fill text-success"></i>
+                        Access and Use
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% if record.access_conditions %}
+                        <div class="col-md-6 mb-3">
+                            <h6 class="text-primary">Access Conditions</h6>
+                            <p class="mb-0">{{ record.access_conditions }}</p>
+                        </div>
+                        {% endif %}
+                        
+                        {% if record.legal_status %}
+                        <div class="col-md-6 mb-3">
+                            <h6 class="text-primary">Legal Status</h6>
+                            <p class="mb-0">{{ record.legal_status }}</p>
+                        </div>
+                        {% endif %}
+                        
+                        {% if record.closure_status %}
+                        <div class="col-md-6 mb-3">
+                            <h6 class="text-primary">Closure Status</h6>
+                            <span class="badge badge-{{ 'success' if 'Open' in record.closure_status else 'secondary' }}">
+                                {{ record.closure_status }}
+                            </span>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            
+            <!-- Physical Information -->
+            {% if record.physical_description or record.dimensions or record.arrangement %}
+            <div class="card shadow-card mb-4 fade-in">
+                <div class="card-header">
+                    <h4 class="mb-0">
+                        <i class="bi bi-box-seam text-info"></i>
+                        Physical Information
+                    </h4>
+                </div>
+                <div class="card-body">
+                    {% if record.physical_description %}
+                    <div class="mb-3">
+                        <h6 class="text-primary">Physical Description</h6>
+                        <p>{{ record.physical_description }}</p>
+                    </div>
+                    {% endif %}
+                    
+                    {% if record.dimensions %}
+                    <div class="mb-3">
+                        <h6 class="text-primary">Dimensions</h6>
+                        <p>{{ record.dimensions }}</p>
+                    </div>
+                    {% endif %}
+                    
+                    {% if record.arrangement %}
+                    <div class="mb-0">
+                        <h6 class="text-primary">Arrangement</h6>
+                        <p class="mb-0">{{ record.arrangement }}</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+            
+            <!-- Language and Script -->
+            {% if record.language or record.script %}
+            <div class="card shadow-card mb-4 fade-in">
+                <div class="card-header">
+                    <h4 class="mb-0">
+                        <i class="bi bi-translate text-primary"></i>
+                        Language and Script
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% if record.language %}
+                        <div class="col-md-6">
+                            <h6 class="text-primary">Language</h6>
+                            <p>{{ record.language }}</p>
+                        </div>
+                        {% endif %}
+                        
+                        {% if record.script %}
+                        <div class="col-md-6">
+                            <h6 class="text-primary">Script</h6>
+                            <p>{{ record.script }}</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            
+            <!-- Related Materials -->
+            {% if record.related_material or record.copies_information or record.originals_held_elsewhere %}
+            <div class="card shadow-card mb-4 fade-in">
+                <div class="card-header">
+                    <h4 class="mb-0">
+                        <i class="bi bi-link-45deg text-warning"></i>
+                        Related Materials
+                    </h4>
+                </div>
+                <div class="card-body">
+                    {% if record.related_material %}
+                    <div class="mb-3">
+                        <h6 class="text-primary">Related Material</h6>
+                        <p>{{ record.related_material | replace('\n', '<br>') | safe }}</p>
+                    </div>
+                    {% endif %}
+                    
+                    {% if record.copies_information %}
+                    <div class="mb-3">
+                        <h6 class="text-primary">Copies Information</h6>
+                        <p>{{ record.copies_information | replace('\n', '<br>') | safe }}</p>
+                    </div>
+                    {% endif %}
+                    
+                    {% if record.originals_held_elsewhere %}
+                    <div class="mb-0">
+                        <h6 class="text-primary">Originals Held Elsewhere</h6>
+                        <p class="mb-0">{{ record.originals_held_elsewhere | replace('\n', '<br>') | safe }}</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+            
+            <!-- Publications and Finding Aids -->
+            {% if record.publications or record.unpublished_finding_aids or record.publication_note %}
+            <div class="card shadow-card mb-4 fade-in">
+                <div class="card-header">
+                    <h4 class="mb-0">
+                        <i class="bi bi-book-fill text-success"></i>
+                        Publications and Finding Aids
+                    </h4>
+                </div>
+                <div class="card-body">
+                    {% if record.publications %}
+                    <div class="mb-3">
+                        <h6 class="text-primary">Publications</h6>
+                        <p>{{ record.publications | replace('\n', '<br>') | safe }}</p>
+                    </div>
+                    {% endif %}
+                    
+                    {% if record.unpublished_finding_aids %}
+                    <div class="mb-3">
+                        <h6 class="text-primary">Unpublished Finding Aids</h6>
+                        <p>{{ record.unpublished_finding_aids | replace('\n', '<br>') | safe }}</p>
+                    </div>
+                    {% endif %}
+                    
+                    {% if record.publication_note %}
+                    <div class="mb-0">
+                        <h6 class="text-primary">Publication Note</h6>
+                        <p class="mb-0">{{ record.publication_note | replace('\n', '<br>') | safe }}</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+            
+            <!-- Digital Resources -->
+            {% if record.digital_files or record.web_links %}
+            <div class="card shadow-card mb-4 fade-in">
+                <div class="card-header">
+                    <h4 class="mb-0">
+                        <i class="bi bi-cloud-download-fill text-info"></i>
+                        Digital Resources
+                    </h4>
+                </div>
+                <div class="card-body">
+                    {% if record.digital_files %}
+                    <div class="mb-3">
+                        <h6 class="text-primary">Digital Files</h6>
+                        <ul class="list-unstyled">
+                            {% for file in record.digital_files %}
+                            <li class="mb-2">
+                                <i class="bi bi-file-earmark-fill text-primary"></i>
+                                <a href="{{ file }}" target="_blank">{{ file }}</a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                    
+                    {% if record.web_links %}
+                    <div class="mb-0">
+                        <h6 class="text-primary">Web Links</h6>
+                        <ul class="list-unstyled">
+                            {% for link in record.web_links %}
+                            <li class="mb-2">
+                                <i class="bi bi-link-45deg text-primary"></i>
+                                <a href="{{ link }}" target="_blank" class="text-decoration-none">{{ link }}</a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+            
+            <!-- Notes -->
+            {% if record.note %}
+            <div class="card shadow-card mb-4 fade-in">
+                <div class="card-header">
+                    <h4 class="mb-0">
+                        <i class="bi bi-sticky-fill text-warning"></i>
+                        Notes
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-warning">
+                        {{ record.note | replace('\n', '<br>') | safe }}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        
+        <!-- Sidebar Column -->
+        <div class="col-lg-4">
+            <!-- Quick Actions Card -->
+            <div class="card shadow-card mb-4 fade-in">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="bi bi-lightning-fill text-warning"></i>
+                        Quick Actions
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <a href="https://discovery.nationalarchives.gov.uk/details/r/{{ record.id }}" 
+                           target="_blank" class="btn btn-primary">
+                            <i class="bi bi-box-arrow-up-right"></i> View on Official Site
+                        </a>
+                        <button class="btn btn-outline-primary" onclick="copyRecordId()">
+                            <i class="bi bi-clipboard"></i> Copy Record ID
+                        </button>
+                        <button class="btn btn-outline-primary" onclick="window.print()">
+                            <i class="bi bi-printer"></i> Print Details
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Record ID Card -->
+            <div class="card shadow-card mb-4 fade-in">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="bi bi-info-circle-fill text-info"></i>
+                        Record Information
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <small class="text-muted d-block mb-1">Record ID</small>
+                        <code id="record-id" class="user-select-all" style="cursor: pointer;">{{ record.id }}</code>
+                    </div>
+                    
+                    {% if record.reference %}
+                    <div class="mb-3">
+                        <small class="text-muted d-block mb-1">Reference</small>
+                        <strong class="text-primary">{{ record.reference }}</strong>
+                    </div>
+                    {% endif %}
+                    
+                    {% if record.catalogue_source %}
+                    <div class="mb-3">
+                        <small class="text-muted d-block mb-1">Catalogue Source</small>
+                        {{ record.catalogue_source }}
+                    </div>
+                    {% endif %}
+                    
+                    {% if record.level %}
+                    <div class="mb-0">
+                        <small class="text-muted d-block mb-1">Archival Level</small>
+                        <span class="badge badge-primary">{{ record.level }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Subjects Card -->
+            {% if record.subjects %}
+            <div class="card shadow-card mb-4 fade-in">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="bi bi-tags-fill text-primary"></i>
+                        Subjects
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex flex-wrap gap-2">
+                        {% for subject in record.subjects %}
+                        <a href="/search?q={{ subject }}" class="badge badge-secondary text-decoration-none">
+                            {{ subject }}
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            
+            <!-- Creators Card -->
+            {% if record.creators %}
+            <div class="card shadow-card mb-4 fade-in">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="bi bi-person-fill text-success"></i>
+                        Creators
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex flex-wrap gap-2">
+                        {% for creator in record.creators %}
+                        <a href="/search?q={{ creator }}" class="badge badge-success text-decoration-none">
+                            {{ creator }}
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            
+            <!-- Places Card -->
+            {% if record.places %}
+            <div class="card shadow-card mb-4 fade-in">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="bi bi-geo-alt-fill text-danger"></i>
+                        Places
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex flex-wrap gap-2">
+                        {% for place in record.places %}
+                        <a href="/search?q={{ place }}" class="badge badge-secondary text-decoration-none">
+                            <i class="bi bi-geo-alt"></i> {{ place }}
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            
+            <!-- Similar Records Card -->
+            {% if similar_records %}
+            <div class="card shadow-card fade-in">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="bi bi-collection-fill text-primary"></i>
+                        Similar Records
+                    </h5>
+                </div>
+                <div class="card-body">
+                    {% for similar_record in similar_records %}
+                    <div class="mb-3 pb-3 {% if not loop.last %}border-bottom{% endif %}">
+                        <a href="/record/{{ similar_record.id }}" class="text-decoration-none">
+                            <h6 class="text-primary mb-1">
+                                {{ similar_record.title[:100] }}{% if similar_record.title|length > 100 %}...{% endif %}
+                            </h6>
+                        </a>
+                        {% if similar_record.reference %}
+                        <small class="text-muted">
+                            <i class="bi bi-file-text"></i> {{ similar_record.reference }}
+                        </small>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Copy record ID to clipboard
+function copyRecordId() {
+    const recordId = document.getElementById('record-id').textContent;
+    navigator.clipboard.writeText(recordId).then(function() {
+        // Show success feedback
+        const btn = event.target.closest('button');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<i class="bi bi-check-circle"></i> Copied!';
+        btn.classList.add('btn-success');
+        btn.classList.remove('btn-outline-primary');
+        
+        setTimeout(function() {
+            btn.innerHTML = originalText;
+            btn.classList.remove('btn-success');
+            btn.classList.add('btn-outline-primary');
+        }, 2000);
+    }).catch(function(err) {
+        console.error('Failed to copy:', err);
+    });
+}
+
+// Add click to copy for record ID
+document.addEventListener('DOMContentLoaded', function() {
+    const recordIdCode = document.getElementById('record-id');
+    if (recordIdCode) {
+        recordIdCode.title = 'Click to copy';
+        
+        recordIdCode.addEventListener('click', function() {
+            const text = this.textContent;
+            navigator.clipboard.writeText(text).then(function() {
+                recordIdCode.style.backgroundColor = 'var(--primary-100)';
+                setTimeout(function() {
+                    recordIdCode.style.backgroundColor = '';
+                }, 500);
+            });
+        });
+    }
+});
+</script>
+{% endblock %}

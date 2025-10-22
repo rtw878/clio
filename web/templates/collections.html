@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block title %}Collections - clio{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Page Header -->
+    <div class="text-center mb-5 fade-in">
+        <h1 class="display-4 mb-3">
+            <i class="bi bi-collection-play text-primary"></i>
+            Browse Collections
+        </h1>
+        <p class="lead text-muted">
+            Explore archives and collections from The National Archives Discovery catalogue
+        </p>
+    </div>
+    
+    {% if collections %}
+    <!-- Collections Grid -->
+    <div class="row g-4 fade-in">
+        {% for collection in collections %}
+        <div class="col-lg-6">
+            <div class="card shadow-card h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <h4 class="card-title mb-0">
+                            <a href="/search?collection={{ collection.collection }}" 
+                               class="text-decoration-none text-primary">
+                                {{ collection.collection }}
+                            </a>
+                        </h4>
+                        <span class="badge badge-primary">
+                            {{ "{:,}".format(collection.record_count) }}
+                        </span>
+                    </div>
+                    
+                    {% if collection.earliest_date or collection.latest_date %}
+                    <div class="mb-3">
+                        <i class="bi bi-calendar text-muted me-2"></i>
+                        <small class="text-muted">
+                            {{ collection.earliest_date or '' }}{% if collection.earliest_date and collection.latest_date %} - {% endif %}{{ collection.latest_date or '' }}
+                        </small>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="mt-auto">
+                        <a href="/search?collection={{ collection.collection }}" 
+                           class="btn btn-outline-primary">
+                            <i class="bi bi-search"></i> Explore Collection
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <!-- Collection Stats -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="card shadow-card">
+                <div class="card-body text-center">
+                    <h4 class="mb-4">Collection Statistics</h4>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="stat-number">{{ collections|length }}</div>
+                            <div class="stat-label">Total Collections</div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="stat-number">{{ "{:,}".format(collections | sum(attribute='record_count')) }}</div>
+                            <div class="stat-label">Total Records</div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="stat-number">{{ collections | selectattr('earliest_date') | list | length }}</div>
+                            <div class="stat-label">Dated Collections</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    {% else %}
+    <!-- No Collections Message -->
+    <div class="row">
+        <div class="col-12">
+            <div class="text-center py-5 fade-in">
+                <div class="mb-4">
+                    <i class="bi bi-collection display-1 text-muted"></i>
+                </div>
+                <h3 class="mb-3">No Collections Available</h3>
+                <p class="text-muted mb-4">
+                    No collection data is available yet. Try fetching some records first to populate the collections.
+                </p>
+                <div>
+                    <a href="/" class="btn btn-primary me-2">
+                        <i class="bi bi-house"></i> Go to Home
+                    </a>
+                    <a href="/search" class="btn btn-outline-primary">
+                        <i class="bi bi-search"></i> Search Records
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
