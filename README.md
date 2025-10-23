@@ -774,3 +774,11 @@ python main.py backup --action restore --backup-id latest_backup_id
 **© 2025 National Archives Discovery Clone | Enterprise-Grade Archival Research Tools**
 
 </div>
+
+### 🖼️ Screenshots
+
+![Home](web/static/images/screenshots/home.png)
+
+![Search](web/static/images/screenshots/search.png)
+
+![Stats](web/static/images/screenshots/stats.png)
