@@ -1,5 +1,5 @@
 """
-FastAPI web application for National Archives Discovery clone
+clio — FastAPI web application for a professional archives research platform
 """
 
 from fastapi import FastAPI, Request, Form, Query, HTTPException
@@ -31,9 +31,9 @@ logger = logging.getLogger(__name__)
 
 # Initialize FastAPI app
 app = FastAPI(
-    title="National Archives Discovery Clone",
-    description="Local interface for searching National Archives Discovery catalogue",
-    version="1.0.0"
+    title="clio",
+    description="Professional research platform for exploring The National Archives catalogue with modern UX and AI search.",
+    version="2.0.0"
 )
 
 # Initialize components (lazy loading)
