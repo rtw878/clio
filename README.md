@@ -2,7 +2,7 @@
 
 > A professional research platform for exploring The National Archives (TNA) catalogue with modern UX, AI search, and rigorous provenance — built with care for scholars and practitioners.
 
-[![Version](https://img.shields.io/badge/app-clio-blue)](https://github.com/rtw878/national-archives-discovery-clone)
+[![Version](https://img.shields.io/badge/app-clio-blue)](https://github.com/rtw878/clio)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![Python](https://img.shields.io/badge/python-3.8+-brightgreen)](https://python.org)
 
@@ -41,8 +41,8 @@ clio is a modern, local-first research platform that mirrors public metadata fro
 
 ```bash
 # 1) Clone
-git clone https://github.com/rtw878/national-archives-discovery-clone.git
-cd national-archives-discovery-clone
+git clone https://github.com/rtw878/clio.git
+cd clio
 
 # 2) Install
 pip install -r requirements.txt

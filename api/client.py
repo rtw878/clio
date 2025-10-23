@@ -85,7 +85,7 @@ class DiscoveryClient:
         self.session = requests.Session()
         # Use CORRECT User-Agent format per API Bible Section 6.3
         self.session.headers.update({
-            'User-Agent': 'NationalArchivesClone/2.0 (https://github.com/user/nationalarchives-clone; contact@example.com)',
+            'User-Agent': 'clio/2.0 (https://github.com/rtw878/clio; contact@example.com)',
             'Accept': 'application/json'
         })
         
