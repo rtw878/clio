@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="400" height="120" viewBox="0 0 400 120" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="logo-title logo-desc">
+  <title id="logo-title">clio - National Archives Research Platform</title>
+  <desc id="logo-desc">Dark mode logo featuring the clio wordmark with dynamic green gradient from left to right</desc>
+  
+  <!-- TODO: Replace with actual logo design optimized for dark backgrounds -->
+  <!-- Design Requirements:
+       - Same layout as light version but optimized for dark backgrounds
+       - Consider slightly brighter gradient or white text for better contrast
+       - Maintain brand gradient: linear-gradient(to right, #A1D25B, #428D42)
+  -->
+  
+  <!-- Placeholder: Gradient background rectangle -->
+  <rect width="400" height="120" fill="url(#brand-gradient)" rx="12"/>
+  
+  <!-- Placeholder: Icon/Mark area (left side) -->
+  <g transform="translate(40, 30)">
+    <!-- Forward arrow/chevron icon representing motion -->
+    <path d="M20 20 L40 40 L20 60 L0 40 Z" fill="white" opacity="0.9"/>
+  </g>
+  
+  <!-- Placeholder: Wordmark area (right side) -->
+  <g transform="translate(120, 40)">
+    <text x="0" y="0" font-family="Inter, sans-serif" font-size="36" font-weight="700" fill="white">
+      clio
+    </text>
+    <text x="0" y="25" font-family="Inter, sans-serif" font-size="14" font-weight="400" fill="white" opacity="0.8">
+      National Archives Research Platform
+    </text>
+  </g>
+  
+  <defs>
+    <linearGradient id="brand-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#A1D25B"/>
+      <stop offset="100%" stop-color="#428D42"/>
+    </linearGradient>
+  </defs>
+</svg>

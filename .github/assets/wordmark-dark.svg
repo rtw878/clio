@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200" height="60" viewBox="0 0 200 60" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="wordmark-title wordmark-desc">
+  <title id="wordmark-title">clio Wordmark</title>
+  <desc id="wordmark-desc">Dark mode isolated clio wordmark with dynamic green gradient</desc>
+  
+  <!-- TODO: Replace with actual wordmark design optimized for dark backgrounds -->
+  <!-- Design Requirements:
+       - Same typography as light version but optimized for dark backgrounds
+       - Consider white text or slightly brighter gradient
+       - Maintain brand gradient: linear-gradient(to right, #A1D25B, #428D42)
+  -->
+  
+  <!-- Placeholder: Gradient text -->
+  <text x="0" y="45" font-family="Inter, sans-serif" font-size="48" font-weight="800" fill="url(#brand-gradient)">
+    clio
+  </text>
+  
+  <defs>
+    <linearGradient id="brand-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#A1D25B"/>
+      <stop offset="100%" stop-color="#428D42"/>
+    </linearGradient>
+  </defs>
+</svg>

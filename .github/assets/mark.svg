@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="mark-title mark-desc">
+  <title id="mark-title">clio Icon</title>
+  <desc id="mark-desc">Isolated icon representing forward motion and progress</desc>
+  
+  <!-- TODO: Replace with actual icon design -->
+  <!-- Design Requirements:
+       - Clean, geometric icon representing forward motion
+       - Apply brand gradient: linear-gradient(to right, #A1D25B, #428D42)
+       - Light color (#A1D25B) starts on left, transitions to dark (#428D42) on right
+       - Should work well at small sizes (favicon, app icons)
+  -->
+  
+  <!-- Placeholder: Gradient background circle -->
+  <circle cx="60" cy="60" r="50" fill="url(#brand-gradient)"/>
+  
+  <!-- Placeholder: Forward arrow icon -->
+  <g transform="translate(30, 30)">
+    <path d="M30 30 L50 50 L30 70 L10 50 Z" fill="white" opacity="0.9"/>
+  </g>
+  
+  <defs>
+    <linearGradient id="brand-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#A1D25B"/>
+      <stop offset="100%" stop-color="#428D42"/>
+    </linearGradient>
+  </defs>
+</svg>
