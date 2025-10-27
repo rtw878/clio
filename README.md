@@ -76,15 +76,13 @@ python main.py serve --port 8080
 - **Dark Mode Logo**: `.github/assets/logo-dark.svg`
 - **Icon/Mark**: `.github/assets/mark.svg`
 - **Dark Mode Mark**: `.github/assets/mark-dark.svg`
-- **Wordmark**: `.github/assets/wordmark.svg`
-- **Dark Mode Wordmark**: `.github/assets/wordmark-dark.svg`
 
 ### Color Palette
 
 **Dynamic Green Gradient** - The core brand identity:
-- **Start**: `#A1D25B` (Dynamic Lime)
-- **End**: `#428D42` (Tech Green)
-- **CSS**: `linear-gradient(to right, #A1D25B, #428D42)`
+- **Start**: `#76C84D` (Vibrant Green)
+- **End**: `#1A7E3A` (Deep Forest Green)
+- **CSS**: `linear-gradient(to right, #76C84D, #1A7E3A)`
 
 ### Complete Brand Kit
 
@@ -96,7 +94,7 @@ For complete brand guidelines, color specifications, and all asset variations in
 ### Usage Guidelines
 - **Gradient Direction**: Always horizontal from left to right
 - **Logo Logic**: Light color starts on left/tail, transitions to dark color on right/point
-- **Monochrome**: Use Tech Green (`#428D42`) for solid color elements
+- **Monochrome**: Use Deep Forest Green (`#1A7E3A`) for solid color elements
 
 ### Brand Attributes
 Dynamic, Modern, Growth, Speed, Forward-thinking, Fresh, Energetic, Tech, Professional, Trustworthy, Vibrant

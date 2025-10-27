@@ -6,15 +6,15 @@
 This gradient defines the core brand identity and should be used for primary logos and key brand elements.
 
 **Gradient Pole 1 (Start / Light)**
-- **Name:** Dynamic Lime
-- **HEX:** `#A1D25B`
-- **RGB:** `rgb(161, 210, 91)`
-- **CSS:** `linear-gradient(to right, #A1D25B, #428D42)`
+- **Name:** Vibrant Green
+- **HEX:** `#76C84D`
+- **RGB:** `rgb(118, 200, 77)`
+- **CSS:** `linear-gradient(to right, #76C84D, #1A7E3A)`
 
 **Gradient Pole 2 (End / Dark)**
-- **Name:** Tech Green  
-- **HEX:** `#428D42`
-- **RGB:** `rgb(66, 141, 66)`
+- **Name:** Deep Forest Green  
+- **HEX:** `#1A7E3A`
+- **RGB:** `rgb(26, 126, 58)`
 
 ### Supporting Colors
 
