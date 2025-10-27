@@ -3,11 +3,7 @@
 A professional research platform for exploring The National Archives (TNA) catalogue — fast, reliable, and designed for rigorous scholarship.
 
 <p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset=".github/assets/logo-dark.svg">
-    <source media="(prefers-color-scheme: light)" srcset=".github/assets/logo.svg">
-    <img alt="clio - National Archives Research Platform" src=".github/assets/logo.svg" width="400">
-  </picture>
+  <img src=".github/assets/logo.svg" alt="clio - National Archives Research Platform" width="400">
 </p>
 
 <p align="center">
@@ -70,11 +66,9 @@ python main.py serve --port 8080
 ### Logo Assets
 
 <p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset=".github/assets/logo-dark.svg">
-    <source media="(prefers-color-scheme: light)" srcset=".github/assets/logo.svg">
-    <img alt="clio - National Archives Research Platform" src=".github/assets/logo.svg" width="400">
-  </picture>
+<p align="center">
+  <img src=".github/assets/logo.svg" alt="clio - National Archives Research Platform" width="400">
+</p>
 </p>
 
 #### Available Logo Formats
