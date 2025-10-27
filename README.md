@@ -61,46 +61,6 @@ python main.py serve --port 8080
 
 ---
 
-## Brand identity
-
-### Logo Assets
-
-<p align="center">
-<p align="center">
-  <img src=".github/assets/logo.svg" alt="clio - National Archives Research Platform" width="400">
-</p>
-</p>
-
-#### Available Logo Formats
-- **Primary Logo**: `.github/assets/logo.svg` (light mode)
-- **Dark Mode Logo**: `.github/assets/logo-dark.svg`
-- **Icon/Mark**: `.github/assets/mark.svg`
-- **Dark Mode Mark**: `.github/assets/mark-dark.svg`
-
-### Color Palette
-
-**Dynamic Green Gradient** - The core brand identity:
-- **Start**: `#76C84D` (Vibrant Green)
-- **End**: `#1A7E3A` (Deep Forest Green)
-- **CSS**: `linear-gradient(to right, #76C84D, #1A7E3A)`
-
-### Complete Brand Kit
-
-For complete brand guidelines, color specifications, and all asset variations including PNG formats, see:
-- `BRAND IDENTITY KIT/` - Complete brand assets and manual
-- `.github/assets/palette.md` - Detailed color specifications
-- `.github/assets/` - All web-ready SVG assets
-
-### Usage Guidelines
-- **Gradient Direction**: Always horizontal from left to right
-- **Logo Logic**: Light color starts on left/tail, transitions to dark color on right/point
-- **Monochrome**: Use Deep Forest Green (`#1A7E3A`) for solid color elements
-
-### Brand Attributes
-Dynamic, Modern, Growth, Speed, Forward-thinking, Fresh, Energetic, Tech, Professional, Trustworthy, Vibrant
-
----
-
 ## License
 
 MIT — see `LICENSE`.
