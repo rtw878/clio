@@ -6,7 +6,9 @@
     <title>{% block title %}clio - National Archives Research Platform{% endblock %}</title>
     
     <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/static/images/favicon.svg">
     <link rel="icon" type="image/png" href="/static/images/favicon.png">
+    <link rel="apple-touch-icon" href="/static/images/apple-touch-icon.png">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,7 +22,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap-grid.min.css" rel="stylesheet">
 
     <!-- Custom Premium CSS -->
-    <link href="{{ url_for('static', path='css/main.css') }}?v=20251021-1" rel="stylesheet">
+    <link href="{{ url_for('static', path='css/main.css') }}?v=20251024-1" rel="stylesheet">
 
     {% block extra_css %}{% endblock %}
 </head>
@@ -30,7 +32,7 @@
         <div class="container">
             <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
                 <a class="navbar-brand" href="/" style="display: flex; align-items: center; gap: 0;">
-                    <img src="/static/images/logo.png" alt="clio" style="height: 48px; width: auto;">
+                    <img src="/static/images/logo.svg" alt="clio" style="height: 48px; width: auto;">
                 </a>
 
                 <div style="display: flex; align-items: center; gap: var(--space-4);">
@@ -76,7 +78,7 @@
             <div class="row" style="gap: var(--space-8) 0;">
                 <div class="col-lg-4">
                     <div style="display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-4);">
-                        <img src="/static/images/logo-symbol.png" alt="clio symbol" style="height: 48px; width: 48px;">
+                        <img src="/static/images/logo-symbol.svg" alt="clio symbol" style="height: 48px; width: 48px;">
                         <h5 style="font-weight: 800; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin: 0;">
                             clio
                         </h5>
@@ -89,10 +91,10 @@
                         <span class="badge badge-primary">
                             <i class="bi bi-cpu"></i> AI Search
                         </span>
-                        <span class="badge" style="background: linear-gradient(135deg, var(--brand-cyan) 0%, var(--brand-blue) 100%); color: white;">
+                        <span class="badge" style="background: var(--gradient-primary); color: white;">
                             <i class="bi bi-lightning-charge"></i> Real-time
                         </span>
-                        <span class="badge" style="background: linear-gradient(135deg, var(--brand-magenta) 0%, var(--brand-pink) 100%); color: white;">
+                        <span class="badge" style="background: var(--primary-600); color: white;">
                             <i class="bi bi-shield-check"></i> Compliant
                         </span>
                     </div>

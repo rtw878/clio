@@ -52,5 +52,8 @@ verification_report_*.md
 performance_*.txt
 *.jsonl
 
+# Brand identity kit (source files, keep local)
+BRAND IDENTITY KIT/
+
 
 

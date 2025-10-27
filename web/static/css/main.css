@@ -1,27 +1,30 @@
 /* 
  * clio — Premium Design System
  * Clean, Modern, Professional
+ * Brand: Dynamic Green (#A1D25B to #428D42)
  */
 
 :root {
-  /* Clio Brand Colors - Cyan to Purple to Magenta Gradient */
-  --brand-cyan: #1B9BD7;
-  --brand-blue: #2E7AC5;
-  --brand-purple: #7B5EA7;
-  --brand-magenta: #B64896;
-  --brand-pink: #D64398;
+  /* Clio Brand Colors - Dynamic Green Gradient */
+  --brand-lime: #A1D25B;
+  --brand-green: #428D42;
   
-  /* Primary Palette - Based on Brand Purple */
-  --primary-50: #faf5ff;
-  --primary-100: #f3e8ff;
-  --primary-200: #e9d5ff;
-  --primary-300: #d8b4fe;
-  --primary-400: #c084fc;
-  --primary-500: #7B5EA7;
-  --primary-600: #6a4a8f;
-  --primary-700: #593677;
-  --primary-800: #48225f;
-  --primary-900: #371047;
+  /* Primary Palette - Based on Brand Green */
+  --primary-50: #f0f9f0;
+  --primary-100: #dcf2dc;
+  --primary-200: #b8e5b8;
+  --primary-300: #94d894;
+  --primary-400: #70cb70;
+  --primary-500: #428D42;
+  --primary-600: #367a36;
+  --primary-700: #2a672a;
+  --primary-800: #1e541e;
+  --primary-900: #124112;
+  
+  /* Brand Gradient */
+  --gradient-brand: linear-gradient(to right, #A1D25B, #428D42);
+  --gradient-brand-hover: linear-gradient(to right, #91c24b, #3a7d3a);
+  --gradient-primary: linear-gradient(to right, #A1D25B, #428D42);
   
   /* Clean Neutrals - High Contrast */
   --white: #ffffff;
@@ -36,25 +39,14 @@
   --gray-800: #1f2937;
   --gray-900: #111827;
   
-  /* Accent Colors - From Brand Gradient */
-  --accent-cyan: #1B9BD7;
-  --accent-purple: #7B5EA7;
-  --accent-pink: #D64398;
-  --accent-magenta: #B64896;
-  
-  /* Brand Gradient */
-  --gradient-brand: linear-gradient(135deg, #1B9BD7 0%, #7B5EA7 50%, #D64398 100%);
-  --gradient-brand-hover: linear-gradient(135deg, #1585bc 0%, #694d8f 50%, #b9397f 100%);
-  --gradient-primary: linear-gradient(135deg, #1B9BD7 0%, #7B5EA7 50%, #D64398 100%);
-  
-  /* Semantic */
+  /* Semantic Colors */
   --success: #10b981;
   --warning: #f59e0b;
   --error: #ef4444;
-  --info: #1B9BD7;
+  --info: #428D42;
   
   /* Typography - Professional Fonts */
-  --font-sans: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  --font-sans: 'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
   
   /* Font Sizes */
   --text-xs: 0.75rem;
